@@ -1,12 +1,13 @@
 {
   "name": "@sounds/capacitor-apple-music-auth",
   "version": "1.0.0",
-  "description": "Capacitor plugin for native Apple Music authorization on iOS (avoids MusicKit JS popup redirect issues)",
+  "description": "Capacitor plugin for native Apple Music authorization on iOS. Web and Android stubs return unsupported so the same API works across platforms.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist/",
     "ios/",
+    "android/",
     "SoundsCapacitorAppleMusicAuth.podspec"
   ],
   "scripts": {
@@ -30,10 +31,13 @@
     "url": "https://github.com/williamdphillips/capacitor-apple-music-auth/issues"
   },
   "homepage": "https://github.com/williamdphillips/capacitor-apple-music-auth#readme",
-  "keywords": ["capacitor", "plugin", "apple-music", "musickit", "ios"],
+  "keywords": ["capacitor", "plugin", "apple-music", "musickit", "ios", "android", "web"],
   "capacitor": {
     "ios": {
       "src": "ios"
+    },
+    "android": {
+      "src": "android"
     }
   }
 }

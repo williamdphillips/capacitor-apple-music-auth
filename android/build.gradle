@@ -1,0 +1,21 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace "com.soundsstudios.applemusicauth"
+    compileSdkVersion 34
+    defaultConfig {
+        minSdkVersion 22
+        targetSdkVersion 34
+    }
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation "com.getcapacitor:capacitor-android:7.0.0"
+    implementation 'com.github.misiio:musickitauth:1.1.2'
+}
