@@ -29,4 +29,46 @@ export interface AppleMusicAuthPlugin {
    * iOS: native MusicSubscription. Web: MusicKit JS musicUserSubscription. Android: unsupported.
    */
   hasSubscription(): Promise<{ value: boolean }>;
+
+  /**
+   * Play an Apple Music song by catalog ID.
+   * iOS: native MusicKit. Web: MusicKit JS (app must configure first). Android: not supported in plugin; app uses MusicKit JS.
+   */
+  playSong(options: { songId: string }): Promise<void>;
+
+  /**
+   * Get current playback time in seconds.
+   * iOS: native ApplicationMusicPlayer. Web: not implemented (use MusicKit JS). Android: not supported.
+   */
+  getCurrentTime(): Promise<{ value: number }>;
+
+  /**
+   * Get duration of current song in seconds.
+   * iOS: native ApplicationMusicPlayer. Web: not implemented (use MusicKit JS). Android: not supported.
+   */
+  getDuration(): Promise<{ value: number }>;
+
+  /**
+   * Pause playback.
+   * iOS: native ApplicationMusicPlayer. Web: not implemented (use MusicKit JS). Android: not supported.
+   */
+  pause(): Promise<void>;
+
+  /**
+   * Resume/start playback.
+   * iOS: native ApplicationMusicPlayer. Web: not implemented (use MusicKit JS). Android: not supported.
+   */
+  play(): Promise<void>;
+
+  /**
+   * Stop playback.
+   * iOS: native ApplicationMusicPlayer. Web: not implemented (use MusicKit JS). Android: not supported.
+   */
+  stop(): Promise<void>;
+
+  /**
+   * Seek to a specific time in the current song.
+   * iOS: native ApplicationMusicPlayer. Web: not implemented (use MusicKit JS). Android: not supported.
+   */
+  seek(options: { time: number }): Promise<void>;
 }

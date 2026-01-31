@@ -116,4 +116,9 @@ public class AppleMusicAuthPlugin extends Plugin {
         ret.put("value", token != null && !token.isEmpty());
         call.resolve(ret);
     }
+
+    @PluginMethod
+    public void playSong(PluginCall call) {
+        call.reject("playSong is not supported on Android");
+    }
 }

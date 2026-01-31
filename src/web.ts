@@ -9,6 +9,8 @@ declare global {
         authorize: () => Promise<string>;
         musicUserToken?: string;
         musicUserSubscription?: { canPlayCatalogContent?: boolean };
+        setQueue: (opts: { song: string } | { song: string[] }) => Promise<void>;
+        play: () => Promise<void>;
       };
     };
   }
@@ -56,5 +58,41 @@ export class AppleMusicAuthWeb extends WebPlugin implements AppleMusicAuthPlugin
     }
     const canPlay = instance.musicUserSubscription?.canPlayCatalogContent ?? false;
     return { value: canPlay };
+  }
+
+  async playSong(options: { songId: string }): Promise<void> {
+    const instance = getMusicKitInstance();
+    if (!instance) {
+      throw new Error('MusicKit not available; configure with developer token first.');
+    }
+    if (!instance.musicUserToken) {
+      throw new Error('Apple Music not authorized in this session; play will fall back to file.');
+    }
+    await instance.setQueue({ song: options.songId });
+    await instance.play();
+  }
+
+  async getCurrentTime(): Promise<{ value: number }> {
+    throw new Error('Not implemented on web - use MusicKit JS directly');
+  }
+
+  async getDuration(): Promise<{ value: number }> {
+    throw new Error('Not implemented on web - use MusicKit JS directly');
+  }
+
+  async pause(): Promise<void> {
+    throw new Error('Not implemented on web - use MusicKit JS directly');
+  }
+
+  async play(): Promise<void> {
+    throw new Error('Not implemented on web - use MusicKit JS directly');
+  }
+
+  async stop(): Promise<void> {
+    throw new Error('Not implemented on web - use MusicKit JS directly');
+  }
+
+  async seek(options: { time: number }): Promise<void> {
+    throw new Error('Not implemented on web - use MusicKit JS directly');
   }
 }
