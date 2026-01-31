@@ -1,0 +1,39 @@
+{
+  "name": "@sounds/capacitor-apple-music-auth",
+  "version": "1.0.0",
+  "description": "Capacitor plugin for native Apple Music authorization on iOS (avoids MusicKit JS popup redirect issues)",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/",
+    "ios/",
+    "SoundsCapacitorAppleMusicAuth.podspec"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "devDependencies": {
+    "@capacitor/core": "^7.0.0",
+    "typescript": "~5.3.0"
+  },
+  "peerDependencies": {
+    "@capacitor/core": "^7.0.0"
+  },
+  "license": "MIT",
+  "author": "Sounds Studios",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/williamdphillips/capacitor-apple-music-auth.git"
+  },
+  "bugs": {
+    "url": "https://github.com/williamdphillips/capacitor-apple-music-auth/issues"
+  },
+  "homepage": "https://github.com/williamdphillips/capacitor-apple-music-auth#readme",
+  "keywords": ["capacitor", "plugin", "apple-music", "musickit", "ios"],
+  "capacitor": {
+    "ios": {
+      "src": "ios"
+    }
+  }
+}
