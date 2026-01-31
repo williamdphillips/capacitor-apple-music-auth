@@ -1,21 +1,46 @@
 import Capacitor
 import Foundation
 import MusicKit
+import StoreKit
 
 @objc(AppleMusicAuthPlugin)
 public class AppleMusicAuthPlugin: CAPPlugin {
 
     @objc func requestAuthorization(_ call: CAPPluginCall) {
         if #available(iOS 15.0, *) {
+            let developerToken = call.getString("developerToken")
             Task { @MainActor in
                 do {
                     let status = await MusicAuthorization.request()
                     let authorized = status == .authorized
                     let statusString = statusToString(status)
-                    call.resolve([
-                        "authorized": authorized,
-                        "status": statusString
-                    ])
+                    if !authorized {
+                        call.resolve([
+                            "authorized": false,
+                            "status": statusString
+                        ])
+                        return
+                    }
+                    if let devToken = developerToken, !devToken.isEmpty {
+                        SKCloudServiceController().requestUserToken(forDeveloperToken: devToken) { [weak call] userToken, error in
+                            DispatchQueue.main.async {
+                                guard let call = call else { return }
+                                var result: [String: Any] = [
+                                    "authorized": true,
+                                    "status": statusString
+                                ]
+                                if let token = userToken, !token.isEmpty {
+                                    result["token"] = token
+                                }
+                                call.resolve(result)
+                            }
+                        }
+                    } else {
+                        call.resolve([
+                            "authorized": true,
+                            "status": statusString
+                        ])
+                    }
                 } catch {
                     call.reject("Apple Music authorization failed: \(error.localizedDescription)", nil, error)
                 }

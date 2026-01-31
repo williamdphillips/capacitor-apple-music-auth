@@ -6,7 +6,7 @@ Capacitor plugin for native Apple Music authorization on iOS. Use this instead o
 
 | Platform | Support |
 |----------|---------|
-| **iOS**  | Full (native MusicKit). iOS 15+ required. |
+| **iOS**  | Full (native MusicKit). iOS 15+ required. Pass `developerToken` to get `token` in response for web/cross-platform storage. |
 | **Android** | Full (native [MusicKit SDK for Android](https://developer.apple.com/musickit/)). Pass `developerToken` in options. Requires Apple Music app on device. |
 | **Web**  | Full (MusicKit JS). App must load and configure MusicKit with developer token first. |
 
@@ -29,14 +29,12 @@ npx cap sync android
 ```typescript
 import AppleMusicAuth from '@sounds/capacitor-apple-music-auth';
 
-// iOS: no options. Web: configure MusicKit first. Android: pass developer token.
-const options = (platform === 'android' && developerToken)
-  ? { developerToken }
-  : undefined;
+// iOS: pass developerToken to get res.token for web storage. Web: configure MusicKit first. Android: pass developerToken.
+const options = developerToken ? { developerToken } : undefined;
 const res = await AppleMusicAuth.requestAuthorization(options);
-if (res.authorized) {
-  // On Android (and optionally web), use res.token for API calls and storage
-  const userToken = res.token ?? musicKitInstance?.musicUserToken;
+if (res.authorized && res.token) {
+  // Store res.token for API calls and for web/cross-platform use (iOS, Android, web)
+  await saveAppleMusicToken(userId, res.token);
 }
 
 const { status } = await AppleMusicAuth.getAuthorizationStatus();
@@ -47,6 +45,7 @@ const { value } = await AppleMusicAuth.hasSubscription();
 
 - Add **Music** capability in Xcode (Signing & Capabilities) if needed.
 - `NSAppleMusicUsageDescription` is required in Info.plist for authorization (add via Xcode or Info.plist).
+- To store the music user token for web usage (so the same user is connected on web without re-auth), pass your **developer token** when calling `requestAuthorization({ developerToken })`. The plugin uses `SKCloudServiceController.requestUserToken(forDeveloperToken:)` and returns the token in the response; your app can then save it to your backend.
 
 ## Android setup
 
