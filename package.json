@@ -21,7 +21,7 @@
     "@capacitor/core": "^7.0.0"
   },
   "license": "MIT",
-  "author": "Sounds Studios",
+  "author": "SOUNDS STUDIOS TECHNOLOGIES LLC",
   "repository": {
     "type": "git",
     "url": "https://github.com/williamdphillips/capacitor-apple-music-auth.git"
